@@ -1,0 +1,177 @@
+{% extends 'myapp/base.html' %}
+
+{% load static %}
+
+{% load humanize %}
+  
+  {% block content %}
+     
+  
+
+
+<!--Carousel Wrapper-->
+<div id="video-carousel-example2" class="carousel slide carousel-fade" data-ride="carousel">
+  <!--Indicators-->
+  <ol class="carousel-indicators">
+    <li data-target="#video-carousel-example2" data-slide-to="0" class="active"></li>
+    <li data-target="#video-carousel-example2" data-slide-to="1"></li>
+    
+  </ol>
+  <!--/.Indicators-->
+  <!--Slides-->
+  <div class="carousel-inner" role="listbox">
+    <!-- First slide -->
+    <div class="carousel-item active" data-interval="4000">
+      <!--Mask color-->
+      <div class="view">
+        <!--Video source-->
+        <video class="video-fluid" autoplay loop muted>
+          <source src="{% static 'myapp/images/video/test.mp4' %}" type="video/mp4">
+        </video>
+        <div class=" rgba-indigo-light"></div>
+      </div>
+
+      
+    </div>
+    <!-- /.First slide -->
+
+    <!-- Second slide -->
+    <div class="carousel-item">
+      <!--Mask color-->
+      <div class="view">
+        <!--Video source-->
+        <video class="video-fluid"width="auto" height="1000" autoplay loop muted>
+          <source src="{% static 'myapp/images/video/test2.mp4' %}" type="video/mp4">
+        </video>
+        <div class=" rgba-purple-slight"></div>
+      </div>
+
+     
+    </div>
+    <!-- /.Second slide -->
+
+   
+    
+  </div>
+  <!--/.Slides-->
+  <!--Controls-->
+  <a class="carousel-control-prev" href="#video-carousel-example2" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#video-carousel-example2" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+  <!--/.Controls-->
+</div>
+<!--Carousel Wrapper-->
+
+
+
+<div class="jumbotron text-center">
+    <h1>บริษัท แอมเน็ต ไอที โซลูชั่น แอนด์ เอ็นจิเนียริ่ง จำกัด</h1>      
+    <p>ยินดีให้บริการด้านงาน IT Outsources หลากหลายประเภท มีประสบการณ์มานานกว่า 15 ปี เราเข้าใจถึงความต้องการของลูกค้า เรามีหน้าที่จัดการงานด้าน IT ภายในองค์กรแบบมืออาชีพ</p>
+  </div>
+     
+
+
+
+
+
+
+
+
+<div class="container" >
+    
+    <h4>สินค้าล่าสุด(แนะนำ)</h4>
+  
+
+   
+      <div class="row " >
+        
+    {% for pd in product %}
+      <div class="col-sm-6 col-md-4 col-lg-3 mt-4  "  >
+      
+<!-- Card -->
+<div class="card">
+
+  <div class="view zoom overlay">
+    
+    
+    <a href="{% url 'detail-page' pd.id %}">
+      <div class="mask">
+        {% if pd.image %}
+           <img class="img-fluid w-100" src="{{ pd.image.url }}">
+        {% endif %}
+       
+        
+      </div>
+    </a>
+  </div>
+
+  <div class="card-body text-center">
+
+    <h5>{{ pd.name|truncatechars:10 }}</h5>
+    <p class="small text-muted text-uppercase mb-2">{{ pd.namedetail|truncatechars:20 }}</p>
+    
+    
+    <h6 class="mb-3">
+      <span class="text-danger mr-1">฿ {{ pd.price| intcomma }}</span>
+     
+    </h6>
+{% if pd.quantity > 0 and pd.instock == True %}
+      {% if user.is_authenticated  %}
+    <a href="{% url 'buynow-page' pd.id  %}"type="submit"name="page" class="btn btn-primary btn-sm"style="text-align: center;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> สั่งซื้อสินค้า</a>
+    
+    <a href="{% url 'detail-page' pd.id %}" class="btn btn-light btn-sm"style="text-align: center;"><i class="fas fa-info-circle"></i> รายละเอียด</a>
+    {% else %}
+        <a href="{% url 'login'  %}" class="btn btn-primary btn-sm"style="text-align: center;"><i class="fa fa-shopping-cart" aria-hidden="true"></i> สั่งซื้อสินค้า</a>
+    <a href="{% url 'detail-page' pd.id %}" class="btn btn-light btn-sm"style="text-align: center;"><i class="fas fa-info-circle"></i> รายละเอียด</a>
+        {% endif %}
+    {% else %}
+     <a type="button" class="btn btn-light btn-block btn-sm disabled" style="color: red;"><i class="fas fa-times"></i> สินค้าหมด</a>
+
+      {% endif %}
+
+     {% if user.is_authenticated and user.profile.usertype == 'admin' %}
+     <hr>
+        <a href="{% url 'editproduct-page' pd.id %}" class="btn btn-outline-dark btn-block btn-sm"style="text-align: center;"> แก้ไขสินค้า</a>
+    {% endif %}
+        
+    
+
+
+  </div>
+
+</div>
+<!-- Card -->
+        
+    <br>
+
+      </div>
+
+
+    {% endfor %}
+
+      </div>
+
+
+
+
+  </div>
+    
+
+
+   
+ 
+
+
+  
+
+ {% endblock content %}
+  <!-- end for nav -->
+
+  
+
+

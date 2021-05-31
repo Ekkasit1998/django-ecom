@@ -1,0 +1,81 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+
+
+
+{% block content %}
+
+
+<div class="container" style="margin-bottom: 50px;">
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card" >
+      <h5 class="card-header">อัพโหลดสลิป</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">อัพโหลดสลิปของ ORDER : {{orderid}}</li>
+          <li class="list-group-item">จำนวนสินค้า : {{count}} ชิ้น</li>
+          <li class="list-group-item">ประเภทการส่ง : {{oddetail.shipping}}</li>
+          {% if oddetail.payment == 'cod' %}
+          <li class="list-group-item">บวกค่าเก็บเงินปลายทาง 20 บาท </li>
+          {% endif %}
+          <li class="list-group-item">ยอดสินค้ารวม : {{total|intcomma}}</li>
+          <li class="list-group-item">ค่าส่ง : {{shipcost}} </li>
+          <li class="list-group-item">รวมยอดโอนทั้งหมด : {{grandtotal|intcomma}} </li>
+
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="card" >
+      <h5 class="card-header">ช่องทางการชำระเงิน</h5>
+        <ul class="list-group list-group-flush">
+          
+          <li class="list-group-item">ธนาคาร: กสิกรไทย </li>
+          <li class="list-group-item">ชื่อบัญชี: บริษัทแอมเน็ต ไอที โซลูชั่น แอนด์ เอ็นจิเนียริ่ง จำกัด </li>
+          <li class="list-group-item">หมายเลขบัญชี: 522-1-01968-9</li>
+          
+         
+          <li class="list-group-item">เมื่อโอนตังค์เสร็จสิ้นเรียบร้อย ส่งสลิปการโอนทักไปที่ Inbox เพจตามลิ้งค์ด้านล่างได้เพื่อความสะดวกรวดเร็ว
+          </li>
+          <li class="list-group-item">ติดต่อเพจ <a href="https://www.facebook.com/Amnetwifi">Amnet it solution & engineering</a> </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <br>
+
+
+{% if oddetail.slip %}
+  <div class="row">
+      <div class="col-sm-12">
+        <div class="container" style="margin-bottom: 50px">
+          <div class="card " style="width: 50%; margin-left: auto;margin-right: auto;">
+            <img src="{{oddetail.slip.url}}"class="card-img-top">
+          </div>
+        </div>
+      </div>
+  </div>
+{% else %}
+  <form method="POST" enctype="multipart/form-data">
+  	{% csrf_token %}
+  	<!-- บังคับใส่ ของ django -->
+    <div class="form-group">
+      <label for="silptime">วันเวลาที่โอน</label>
+      
+      <input type="text" class="form-control" id="silptime" name="silptime">
+        
+    </div>
+
+      <div class="form-group">
+      <label for="slip">หลักฐานการโอนเงิน</label>
+      <input type="file" class="form-control" id="slip" name="slip">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">ยืนยันการอัพโหลด</button>
+
+  </form>
+  {% endif %}
+</div>
+
+{% endblock content %}

@@ -1,0 +1,82 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+
+
+{% block content %}
+	
+	 {% if status == 'delete' %}
+     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>ลบสินค้าเรียบร้อยแล้ว!</strong> คุณสามารถเลือกดูสินค้าอื่น ๆ ได้เลย
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  {% endif %}
+
+<div class="container">
+  <h2>ตะกร้าสินค้าของฉัน</h2>
+  <p>แก้ไขจำนวนสินค้าในตะกร้า</p>            
+  <form method="POST" id="formsave">
+      {% csrf_token %}
+
+<div class="row">
+<div class="col-sm-12">
+    <div class="table-responsive">
+<table class="table table-striped  table-hover">
+  <thead class="thead-dark">
+    <tr>
+      
+      <th scope="col">สินค้า</th>
+      <th scope="col">ราคา</th>
+      <th scope="col">จำนวน</th>
+      <th scope="col">รวมยอด</th>
+      <!-- <th scope="col">รวมยอด</th> -->
+    </tr>
+  </thead>
+  <tbody>
+
+  	 {% for pd in mycart %}
+    <tr>
+      
+      <td>{{ pd.productsname|truncatechars:30 }}</td>
+      <td>{{ pd.price|intcomma }}</td>      
+    
+
+        
+      <td> 
+
+
+      {{ pd.quantity|intcomma }}</td>
+      <td>{{ pd.total|intcomma }}</td>
+
+     <!--  {% if pd.quantity <= 0 %}
+     <td><input type="number" name="pd_{{pd.productsid }}" value="{{pd.quantity}}"></td>
+     {% endif %} -->
+
+      
+    </tr>
+    {% endfor %} 
+  </tbody>
+</table>
+
+      
+       
+
+
+          <input type="hidden" name="checksave" value="checksave">
+      </form>
+      
+        <div class="row" style="margin: 10px; float:right">
+          <button type="submit" form="formsave" class="btn btn-primary">กลับไปยังตะกร้า</button> 
+          <form id="formclear" method="POST" onclick="return confirm('คุณต้องการลบสินค้าทั้งหมดใช่ไหม?')">
+             {% csrf_token %}
+            <input type="hidden" name="clear" value="clear">
+            <button type="submit" form="formclear" class="btn btn-danger"><i class="far fa-trash-alt"></i> ลบรายการสินค้าทั้งหมด</button> 
+          </form>
+  </div>
+      </div>
+      </div>
+    </div>  
+      </div>  
+</div>
+{% endblock content %}

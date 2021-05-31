@@ -1,0 +1,103 @@
+{% extends 'myapp/base.html' %}
+{% load humanize %}
+
+
+
+{% block header %}
+	<script src="https://www.chartjs.org/dist/2.9.4/Chart.min.js"></script>
+	<script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+{% endblock header %}
+
+
+
+
+{% block content %}
+	
+	<div class="container-fluid">
+		<h1>Dashbord</h1>
+		<h4>สรุปรายละเอียดสินค้า</h4>
+	
+
+
+<div class="card-deck mb-3 text-white text-center ">      
+
+      <div class="card mb-4 shadow-sm bg-info">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">จำนวนรายการสินค้า</h4>
+      </div>
+      <div class="card-body">
+        <h1 class="card-title pricing-card-title">{{product_count}}  ประเภท </h1>
+        
+        <ul class="list-unstyled mt-3 mb-4">
+          <li>รวมราคาทั้งหมด {{ product_total }} บาท</li>
+          <li>ราคาเฉลี่ย {{product_average}} </li>
+          <li>ราคาแพงสุด {{product_max}} </li>
+          <li>ราคาถูกสุด {{product_min}} </li>
+        </ul>
+
+      </div>
+    </div>
+
+
+
+   <!--  <div class="card text-white bg-dark mb-3">
+      <div class="card-header">
+        <h4 class="my-0 font-weight-normal">แสดงจำนวนรายการสินค้า</h4>
+      </div>
+      <div class="card-body">
+        <div id="canvas-holder" style="width:40%">
+		<canvas id="chart-area"></canvas>
+	</div>
+	
+	
+	<script>
+		
+
+		var config = {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: {{pdquan}},
+					backgroundColor: [
+
+					// สี rgb(..,..,..,)
+						window.chartColors.red,
+						window.chartColors.orange,
+						window.chartColors.yellow,
+						window.chartColors.green,
+						window.chartColors.blue,
+					],
+					label: 'Product'
+				}],
+				labels:{{pdname|safe}}
+			},
+			options: {
+				responsive: true
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('chart-area').getContext('2d');
+			window.myPie = new Chart(ctx, config);
+		};
+
+
+		
+	</script>
+      </div>
+    </div> -->
+
+    <div class="card mb-4 shadow-sm bg-success">
+      <div class="card-header">
+        <h2 class="my-0 font-weight-normal">สรุปยอดขายสินค้า</h2>
+      </div>
+      <div class="card-body">
+        <h4 class="card-title pricing-card-title">จำนวนเงินทั้งหมด {{total1}}  บาท</h4>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+{% endblock content %}
